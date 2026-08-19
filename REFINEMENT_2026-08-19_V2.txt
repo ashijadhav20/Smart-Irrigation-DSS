@@ -1,0 +1,45 @@
+SMART IRRIGATION DSS — REFINEMENT V2 (19 AUGUST 2026)
+
+NEW / RETAINED FEATURES
+1. Field geometry now offers BOTH:
+   - Regular shape: Rectangle, Square, Circle, Triangle, Trapezoid with entered dimensions and orientation.
+   - Irregular/actual boundary: draw polygon over satellite imagery or upload GeoJSON.
+2. Every saved field is represented by a real WGS-84 polygon at its location.
+3. Satellite view uses Esri World Imagery; OpenStreetMap remains an optional base layer.
+4. Open-Meteo depth-wise soil moisture remains in the dashboard (0-1, 1-3, 3-9, 9-27, 27-81 cm).
+5. Soil definition now has three routes:
+   - Automatic ISRIC SoilGrids texture estimate (sand/silt/clay + USDA class).
+   - Manual USDA textural-class selection.
+   - User-entered sand/silt/clay percentages; dashboard automatically classifies USDA texture.
+6. Soil panel displays FC and PWP defaults for the selected textural class.
+7. Final 3D Terrain page added. It shows:
+   - the saved field boundary on satellite imagery;
+   - a 3D elevation surface around the same field;
+   - the saved field boundary plotted in 3D;
+   - min/max elevation and local relief.
+8. 3D elevation uses Open-Meteo Elevation API. It is contextual terrain, not engineering-survey accuracy.
+9. Sentinel-2 NDVI continues to use the saved field polygon.
+10. Irrigation volume continues to use field plan area in m2.
+
+FILES CHANGED / ADDED
+- app.py (major update)
+- core/geometry.py (regular-shape polygon generation + bounding box)
+- core/terrain.py (NEW)
+- pages/7_3D_Terrain.py (NEW)
+- REFINEMENT_2026-08-19_V2.txt (NEW)
+
+NO CHANGE REQUIRED TO STREAMLIT SECRETS.
+Existing OpenWeather and Earth Engine secrets can be retained.
+
+ADDED: COMBINED ROOT-ZONE DEPLETION DECISION GRAPH
+--------------------------------------------------
+The Soil Moisture page now includes a presentation-ready decision graph combining:
+- Current and forecast root-zone depletion Dr (mm)
+- RAW irrigation threshold (mm)
+- TAW total available water (mm)
+- First forecast RAW-crossing point marked as IRRIGATE
+- Dr/RAW percentage metric
+- Clear message for irrigation required now, forecast trigger, or no trigger in horizon
+
+The earlier depth-wise Open-Meteo soil-moisture trend, depletion/recharge-by-depth graph,
+and root-zone soil-moisture forecast remain unchanged and available on the same page.

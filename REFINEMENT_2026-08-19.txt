@@ -1,0 +1,36 @@
+REFINEMENT — 19 AUGUST 2026
+
+1. IRREGULAR FIELD AREA
+- Removed the requirement that a real field must be approximated by rectangle/square/circle/etc.
+- User now draws the actual boundary directly on the map or uploads GeoJSON.
+- Area is geodesic WGS-84 polygon area, so an irregular field outline is handled directly.
+- This planimetric area is used for irrigation litres (1 mm over 1 m² = 1 L).
+
+2. SATELLITE MAP + ACTUAL BOUNDARY
+- Default visual basemap is Esri World Imagery satellite imagery.
+- The saved polygon is overlaid at the actual geographic location.
+- OpenStreetMap remains only as an optional alternate layer.
+- Same saved field geometry is used by the GEE NDVI query, instead of an equivalent-area circle.
+
+3. NDVI TO Kc SCIENTIFIC LOGIC
+- Dashboard explicitly states there is no single universal fixed NDVI→Kc equation for every crop.
+- Base Kc remains crop + growth-stage specific.
+- Three NDVI modes are exposed:
+  A) conservative stage-relative crop mode;
+  B) direct Kc=a*NDVI+b using crop/site calibrated coefficients supplied by the researcher;
+  C) NDVI displayed without modifying Kc.
+- This prevents coefficients from one crop being silently applied to all crops.
+
+FILES CHANGED
+app.py
+core/geometry.py
+core/map_tools.py (new)
+core/data.py
+core/crop.py
+core/gee_ndvi.py
+pages/2_Crop_ET.py
+pages/5_Field_Map.py
+requirements.txt
+
+DEPLOYMENT
+Replace the above files/folders in the GitHub/Streamlit project, commit, and reboot/redeploy the Streamlit app. requirements.txt now includes pyproj.
